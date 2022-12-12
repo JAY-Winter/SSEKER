@@ -9,7 +9,8 @@ export default new Vuex.Store({
     projects: [],
     project: [],
     people: [],
-    API_URL: 'https://ec2-3-36-58-100.ap-northeast-2.compute.amazonaws.com:8000',
+    API_URL: 'https://ec2-3-38-93-3.ap-northeast-2.compute.amazonaws.com:8000',
+    // API_URL: 'http://127.0.0.1:8000',
   },
   getters: {
   },
