@@ -31,8 +31,10 @@ def adpeoples(request):
 def similarskill(request, username):
     user = get_object_or_404(User, username=username)
     user_id = user.id
-    user_skill = user.skill.all()[0]
-    users = User.objects.filter(is_staff=False).filter(skill=user_skill).exclude(id=user_id)
-    print(users)
-    serializer = UserListSerializer(users, many=True)
-    return Response(serializer.data)
+    if user.skill.all():
+        user_skill = user.skill.all()[0]
+        users = User.objects.filter(is_staff=False).filter(skill=user_skill).exclude(id=user_id)
+        serializer = UserListSerializer(users, many=True)
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_204_NO_CONTENT)

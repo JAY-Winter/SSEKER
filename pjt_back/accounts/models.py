@@ -13,11 +13,11 @@ class Interest(models.Model):
 
 class User(AbstractUser):
     followings = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='followers')
-    location = models.ManyToManyField(Location)
+    location = models.ManyToManyField(Location, blank=True,)
     university = models.ForeignKey(University, blank=True, null=True, on_delete=models.CASCADE)
-    email = models.EmailField(max_length=1000)
+    email = models.EmailField(max_length=1000, blank=True)
     introduce = models.CharField(max_length=300, blank=True, null=True)
-    skill = models.ManyToManyField(Skill)
+    skill = models.ManyToManyField(Skill, blank=True)
     availability = models.ManyToManyField(Availability, blank=True)
     onoffline = models.ForeignKey(OnOffline, blank=True, null=True, on_delete=models.CASCADE)
     interest = models.ManyToManyField(Interest, blank=True)

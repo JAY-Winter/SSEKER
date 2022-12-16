@@ -1,4 +1,4 @@
-from .models import Project, OnOffline, Skill, Location
+from .models import Project, OnOffline, Skill, Location, Participant, Availability
 from rest_framework import serializers
 from accounts.models import User
 from accounts.models import University as University
@@ -14,8 +14,7 @@ class SkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skill
-        fields = '__all__'
-
+        fields = ('title',)
 
 class LocationSerializer(serializers.ModelSerializer):
 
@@ -30,6 +29,12 @@ class UniversityListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AvailabilitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Availability
+        fields = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
     skill = SkillSerializer(many=True)
     location = LocationSerializer(many=True)
@@ -39,13 +44,30 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'introduce', 'location', 'skill', 'availability', 'university')
 
+
+class ParticipantSerializer(serializers.ModelSerializer):
+    skill = SkillSerializer(many=True)
+    manager = UserSerializer()
+
+    class Meta:
+        model = Participant
+        fields = ('skill', 'manager', )
+        read_only_fields = ('manager', )
+
+
 class ProjectListSerializer(serializers.ModelSerializer):
     onoffline = OnOfflineSerializer()
-    need_skill = SkillSerializer(many=True)
     location = LocationSerializer(many=True)
     founder = UserSerializer()
-    participant = UserSerializer(many=True)
-    
+    participant = ParticipantSerializer(many=True)
+
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Project
         fields = '__all__'
