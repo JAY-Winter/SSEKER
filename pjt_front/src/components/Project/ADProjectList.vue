@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h1>Work With Us</h1>
-        <div class="project-container d-flex flex-row justify-content-around flex-wrap container-sm my-5">
+        <h1 class="text-center">Work With Us</h1>
+        <div class="project-container d-flex flex-row justify-content-around flex-wrap container-sm my-5 text-start pl-4">
         <div class="col-md-4 border border-light rounded" v-for="project in this.ADProjects" :key="project.id">
             <router-link :to="{ name: 'project', params: { projectId: project.id }}">
                 <div class="container">
-                    <div class="card-header">Project {{ project.title }}</div>
+                    <div class="card-header text-center">Project {{ project.title }}</div>
                     <div class="b-flex card-body">
-                    <p>{{ project.onoffline.title }}</p>
+                    <span>{{ project.onoffline.title }}</span>
                     <div v-if="project.location.length <= 3">
                         <span v-for="location in project.location" :key="location.id">
                             <span>{{location.city}}</span> |
@@ -16,9 +16,10 @@
                     <div v-else>
                         Anywhere
                     </div>
-                    <div>Needed Skills 
-                        <span v-for="need_skill in project.need_skill" :key="need_skill.id">
-                            <span>{{ need_skill.title }}</span> |
+                    <div>
+                        Needed Skills 
+                        <span v-for="participant in project.participant" :key="participant.id">
+                            {{ participant.skill[0].title }}
                         </span>
                     </div>
                     <p>Duration {{ project.start_date.substr(0,10) }} - {{ project.end_date.substr(0,10) }}</p>

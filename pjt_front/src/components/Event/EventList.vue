@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Events</h1>
+        <h1 class="text-center">Events</h1>
         <div class="events-container container-sm my-5"></div>
     </div>
 </template>

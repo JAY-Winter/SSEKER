@@ -1,12 +1,12 @@
-from .models import Project, OnOffline, Skill, Location, Participant, Availability
+from .models import Project, Skill, Location, Participant, SkillCategory, Applicant
 from rest_framework import serializers
 from accounts.models import User
-from accounts.models import University as University
 
-class OnOfflineSerializer(serializers.ModelSerializer):
+
+class SkillCategorySerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = OnOffline
+        model = SkillCategory
         fields = '__all__'
 
 
@@ -14,7 +14,8 @@ class SkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skill
-        fields = ('title',)
+        fields = ('__all__')
+
 
 class LocationSerializer(serializers.ModelSerializer):
 
@@ -22,42 +23,34 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
         fields = '__all__'
 
-class UniversityListSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = University
-        fields = '__all__'
-
-
-class AvailabilitySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Availability
-        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     skill = SkillSerializer(many=True)
-    location = LocationSerializer(many=True)
-    university = UniversityListSerializer()
+    location = LocationSerializer()
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'introduce', 'location', 'skill', 'availability', 'university')
+        fields = ('id', 'username', 'introduce', 'location', 'skill', )
+
+class ApplicantListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Applicant
+        fields = '__all__'
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
-    skill = SkillSerializer(many=True)
     manager = UserSerializer()
-
+    skillcategory = SkillCategorySerializer()
+    
     class Meta:
         model = Participant
-        fields = ('skill', 'manager', )
-        read_only_fields = ('manager', )
+        fields = '__all__'
+        read_only_fields = ('manager', 'skillcategory')
 
 
 class ProjectListSerializer(serializers.ModelSerializer):
-    onoffline = OnOfflineSerializer()
-    location = LocationSerializer(many=True)
+    location = LocationSerializer()
     founder = UserSerializer()
     participant = ParticipantSerializer(many=True)
 

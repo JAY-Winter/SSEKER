@@ -1,64 +1,42 @@
 <template>
-  <div id="app">
+  <v-app>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav  d-flex justify-lg-space-around">
+      <li class="nav-item nav-link">
+        <router-link :to="{ name: 'projects' }">Projects</router-link>
+      </li>
+      <li class="nav-item nav-link">
+        <router-link :to="{ name: 'peoples' }">Peoples</router-link>
+      </li>
+      <li class="nav-item nav-link">
+        <v-btn><router-link :to="{ name: 'login' }">Login</router-link></v-btn>
+      </li>
+      <li class="nav-item nav-link">
+        <v-btn><router-link :to="{ name: 'signup' }">Sign in</router-link></v-btn>
+      </li>
+    </ul>
+  </div>
+</nav>
     <nav>
-      <router-link to="/">Main</router-link> |
-      <router-link :to="{ name: 'projects' }">Projects</router-link> |
-      <router-link :to="{ name: 'peoples' }">People</router-link> |
-      <router-link to="/">Community</router-link>
-      <button class="btn btn-primary">Login</button>
-      <button class="btn btn-primary">Sign in</button>
     </nav>
-  <router-view>
-  </router-view>
-  <div>
-  <!-- Footer -->
-  <footer class="text-center text-lg-start bg-light text-muted" id="footer">
-    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-      © Copyright:<a class="text-reset fw-bold" href="/">rubat0@naver.com</a>
-    </div>
-  </footer>
-  </div>
-  </div>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
 
 export default {
+  name: 'App',
 
-}
-
+  data: () => ({
+    //
+  }),
+};
 </script>
-
-<style>
-
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-#footer {
-    /* position: absolute;  */
-    height: 100px;
-    bottom: 0;
-    width: 100%;
-    position : relative;
-    /* transform : translateY(-100%); */
-}
-</style>

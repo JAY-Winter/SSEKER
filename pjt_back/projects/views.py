@@ -1,7 +1,6 @@
-from .models import Project, OnOffline, Skill, Availability, Location, Participant
-from .serializers import ProjectListSerializer, OnOfflineSerializer, SkillSerializer, AvailabilitySerializer, LocationSerializer, ProjectSerializer
+from .models import Project, Skill, Location, Participant, SkillCategory
+from .serializers import ProjectListSerializer, SkillSerializer, LocationSerializer, SkillCategorySerializer
 
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
@@ -17,6 +16,9 @@ def projects(request, project_id=None):
     if request.method == 'GET':
         if project_id:
             project = get_object_or_404(Project, id=project_id)
+            lst = project.participant.all()
+            for l in lst:
+                print(l, l.skillcategory)
             serializer = ProjectListSerializer(project)
         else:
             projects = Project.objects.all()
@@ -27,7 +29,6 @@ def projects(request, project_id=None):
 @api_view(['POST'])
 def project_detail(request):
     if request.method == 'POST':
-        onoffline = OnOffline.objects.get(id=request.data['onoffline'])
         location = Location.objects.get(id=request.data['selectedLocation'])
 
         start_date = list(map(int, (request.data['selectedDates'][0]).split('-')))
@@ -40,27 +41,21 @@ def project_detail(request):
             founder = request.user,
             title = request.data['title'],
             content = request.data['content'],
-            onoffline = onoffline,
             start_date = start_date,
             end_date = end_date,
         )
         project.save()
+        project.location.add(location)
 
         for par in request.data['selectedParticipant']:
+            print(par)
             sel_skill = par['selectedSkill']
             skill = Skill.objects.get(title=sel_skill)
-            participant = Participant.objects.create()
-            participant.save()
-            participant.skill.add(skill)
-            project.participant.add(participant)
-            
-        project.location.add(location)  
-
-        for ava in list(map(int,(request.data['selectedAvailability']))):
-            availability = Availability.objects.get(id=ava)
-            project.availability.add(availability)
-
-
+            manager_count = par['selectedCount']
+            for _ in range(manager_count):
+                participant = Participant.objects.create(project=project)
+                participant.save()
+                participant.skill.add(skill)
         return Response(status=status.HTTP_201_CREATED)
 
 
@@ -75,20 +70,17 @@ def adprojects(request):
 def objects(request):
     if request.method == 'GET':
         skill = Skill.objects.all()
+        skill_category = SkillCategory.objects.all()
         location = Location.objects.all()
-        onoffline = OnOffline.objects.all()
-        availability = Availability.objects.all()
 
         skill_serializer = SkillSerializer(skill, many=True)
         location_serializer = LocationSerializer(location, many=True)
-        onoffline_serializer = OnOfflineSerializer(onoffline, many=True)
-        availability_serializer = AvailabilitySerializer(availability, many=True)
+        skill_category_serializer = SkillCategorySerializer(skill_category, many=True)
         
         context = {
-            'onoffline': onoffline_serializer.data,
             'skill': skill_serializer.data,
-            'availability': availability_serializer.data,
             'location': location_serializer.data,
+            'skill_category': skill_category_serializer.data,
         }
         return Response(context)
 

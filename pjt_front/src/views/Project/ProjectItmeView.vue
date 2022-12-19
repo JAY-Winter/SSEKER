@@ -12,11 +12,6 @@ export default {
     components: {
         ProjectItemVue
     },
-    data() {
-        return {
-            project: Object,
-        }
-    }
 }
 </script>
 

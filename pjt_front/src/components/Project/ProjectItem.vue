@@ -1,32 +1,40 @@
 <template>
     <div>
-        <h1>{{ this.$store.state.project.title }}</h1>
-        <div class="project-container d-flex">
-            <div class="project-item-container container-lg">
-                <div>{{ this.$store.state.project.content }}</div>
-                <h3>Who is in a team</h3>
-                <div v-for="participant in this.$store.state.project.participant" :key="participant.id">
-                    {{ participant.username}}
-                </div>
+        {{ this.project }}
+        <div class="d-flex justify-md-space-between">
+            <h1 class="mx-5">{{ this.project.title }}</h1>
+            <div class="mx-5">
+                <v-btn class="mx-5" @click="deleteProject">DELETE</v-btn>
+                <router-link :to="{ name:'participant', params: { projectId: this.$route.params.projectId } }"><v-btn>Register</v-btn></router-link>
+            </div>
+        </div>
+        <hr>
+        <div class="this.project-container d-flex border-1 mx-5 ">
+            <div class="this.project-item-container container-lg">
+                <div>{{ this.project.content }}</div>
                 <div>
-                    Location<span v-for="location in this.$store.state.project.location" :key="location.id"> {{ location.city }} |</span>
+                    <span> {{ this.project.location.campus }} 캠퍼스</span>
                 </div>
+                <h3>팀원 현황</h3>
                 <div>
-                    Needed Skills<div v-for="skill in this.$store.state.project.need_skill" :key="skill.id"> {{ skill.title }}</div>
+                    <div class="d-flex justify-sm-space-between">
+                        <span>Needed Skills</span>
+                        <span>Manager</span>
+                    </div>
+                    <div v-for="participant in this.project.participant" :key="participant.id">
+                        <div>{{ participant }}</div>
+                        <hr>
+                    </div>
+                    <div v-for="(count, category) in skillCategory" :key="count">{{ category }} - 0 / {{ count }}</div>
                 </div>
-                <div>
-                    Duration Of Project {{ this.$store.state.project.start_date.substr(0,10) }} - {{ this.$store.state.project.end_date.substr(0,10) }}
-                </div>
-                <button class="btn btn-primary">
+                <button class="btn btn-primary my-5">
                     Apply Now
                 </button>
             </div>
-            <div class="project-user-container container-sm">
-                <router-link :to="{ name: 'people', params: { username: this.$store.state.project.founder.username }}">
-                <div>{{ this.$store.state.project.founder.username}}</div>
-                <div>Uni: {{ this.$store.state.project.founder.university.name}}</div>
-                <div>Skills: <span v-for="skill in this.$store.state.project.founder.skill" :key="skill.id">{{ skill.title}}</span></div> 
-                <button class="btn btn-primary">Contact User <b>{{ this.$store.state.project.founder.username }}</b></button>
+            <div class="this.project-user-container container-sm">
+                <router-link :to="{ name: 'people', params: { username: this.project.founder.username }}">
+                <div>{{ this.project.founder.username}}</div>
+                <button class="btn btn-primary">Contact User<b>{{ this.project.founder.username }}</b></button>
             </router-link>
             </div>
         </div>
@@ -34,11 +42,57 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
     name: 'ProjectItem',
+    data() {
+        return {
+            projectId: this.$route.params.projectId,
+            project: null,
+            skill: [],
+            location: [],
+            skillCategory: {}
+        }
+    },
+    computed: {
+    },
+    methods: {
+        getProject() {
+            axios({
+                method: 'get',
+                url: `${this.$store.state.API_URL}/projects/project/${this.projectId}`
+            })
+            .then((res => {
+                this.project = res.data
+                this.skillcategoryCount()
+            }))
+            .catch((err => {
+                console.log(err)
+            }))
+        },
+        deleteProject() {
+            axios({
+                method: 'delete',
+                url: `${this.$store.state.API_URL}/projects/project/${this.projectId}`
+            })
+            .then(this.$router.push({name: 'projects'}))
+            .catch((err) => console.error(err))
+        },
+        skillcategoryCount() {
+            const participant = this.project.participant
+            for (const part of participant) {
+                const category = part.skillcategory.category
+                if (category in this.skillCategory) {
+                    this.skillCategory[category] ++
+                } else {
+                    this.skillCategory[category] = 1
+                }
+            }
+        }
+    },
     created() {
-        this.$store.dispatch('getProject', this.$route.params.projectId)
+        this.getProject()
     },  
 }
 </script>

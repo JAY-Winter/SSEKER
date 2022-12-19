@@ -4,28 +4,23 @@
             <input type="search" class="form-control rounded mx-3" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
             <button type="button" class="btn btn-outline-primary rounded">search</button>
         </div>
-        <div class="project-container d-flex flex-row flex-wrap">
+        <div class="text-center my-5">
+            <router-link :to="{ name: 'createProject' }"><v-btn>New Project</v-btn> </router-link>
+        </div>
+        <div class="project-container d-flex flex-row flex-wrap text-start justify-content-around">
             <div class="col-md-4 border border-light rounded" v-for="project in this.$store.state.projects" :key="project.id">
                 <router-link :to="{ name: 'project', params: { projectId: project.id }}">
                     <div class="container">
-                        <div class="card-header">Project {{ project.title }}</div>
-                        <div class="b-flex card-body">
-                        <p>{{ project.onoffline.title }}</p>
-                        <div v-if="project.location.length <= 3">
-                            <span v-for="location in project.location" :key="location.id">
-                                <span>{{location.city}}</span> |
-                            </span>
+                        <div class="card-header text-center">Project {{ project.title }}</div>
+                        <div class="d-flex card-body justify-content-between">
+                            <div>{{ project.founder.username }}</div>
+                            <div>{{ project.location.campus }}</div>
                         </div>
-                        <div v-else>
-                            Anywhere
+                    <div class="">Needed Skills
+                            
+                            <div v-for="participant in project.participant" :key="participant.id">{{participant}}</div>
+                            
                         </div>
-                        <div>Needed Skills 
-                            <span v-for="need_skill in project.need_skill" :key="need_skill.id">
-                                <span>{{ need_skill.title }}</span> |
-                            </span>
-                        </div>
-                        <p>Duration {{ project.start_date.substr(0,10) }} - {{ project.end_date.substr(0,10) }}</p>
-                    </div>
                     </div>
                 </router-link>
             </div>
