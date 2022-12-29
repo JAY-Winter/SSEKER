@@ -20,8 +20,8 @@ jobs:
         node-version: '16.17.1'
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
-    - run: cd pjt_front_react && npm install
-    - run: cd pjt_front_react && npm run build
+    # - run: cd pjt_front_react && npm install
+    # - run: cd pjt_front_react && npm run build
     - run: touch ssafy_platform_server.pem
     - run: echo '''-----BEGIN RSA PRIVATE KEY-----
           MIIEpAIBAAKCAQEApDRSKEns9Z8qTpHIXakKG32TAbVIqFDG52SVk/m5ydn79MNJ
