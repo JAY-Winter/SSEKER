@@ -52,6 +52,7 @@ jobs:
           npm install
           npm run build
           pm2 start npm -- start
+  
         host: ${{ secrets.AWS_TEST_X_HOST_FE2 }}
         user: ${{ secrets.AWS_TEST_X_USERNAME }}
         key: ${{ secrets.AWS_TEST_X_KEY_FE2 }}
