@@ -15,11 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '16.17.1'
-        cache: 'npm'
-        cache-dependency-path: '**/package-lock.json'
+    #- uses: actions/setup-node@v3
+    #  with:
+    #    node-version: '16.17.1'
+    #    cache: 'npm'
+    #    cache-dependency-path: '**/package-lock.json'
     #- run: cd pjt_front_react && npm install
     #- run: cd pjt_front_react && npm run build
     - name: Deploy
