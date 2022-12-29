@@ -23,14 +23,11 @@ jobs:
     #- run: cd pjt_front_react && npm install
     #- run: cd pjt_front_react && npm run build
     - name: Deploy
-      uses: appleboy/ssh-action@v0.1.6
+      uses: fifsky/ssh-action@master
       with:
-        host: ${{ secrets.AWS_TEST_X_HOST }}
-        username: ${{ secrets.AWS_TEST_X_USERNAME }}
-        key: ${{ secrets.AWS_TEST_X_KEY }}
-        port: ${{ secrets.AWS_TEST_X_PORT }}
-        script_stop: true
-        script: |
+        command: |
           whoami
-          ls
-
+          ls -al
+        host: ${{ secrets.AWS_TEST_X_HOST }}
+        user: ${{ secrets.AWS_TEST_X_USERNAME }}
+        key: ${{ secrets.AWS_TEST_X_KEY }}
