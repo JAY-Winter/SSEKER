@@ -27,14 +27,14 @@ jobs:
       with:
         command: |
           whoami
-          ls -al
-          cd SSEKER
-          git pull
-          cd pjt_front_react/
-          npm install
-          npm run build
-          pm2 start npm -- start
-          sudo systemctl restart nginx 
+          #ls -al
+          #cd SSEKER
+          #git pull
+          #cd pjt_front_react/
+          #npm install
+          #npm run build
+          #pm2 start npm -- start
+          #sudo systemctl restart nginx 
         host: ${{ secrets.AWS_TEST_X_HOST }}
         user: ${{ secrets.AWS_TEST_X_USERNAME }}
         key: ${{ secrets.AWS_TEST_X_KEY }}
