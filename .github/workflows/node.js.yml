@@ -28,7 +28,8 @@ jobs:
         command: |
           cd SSEKER/pjt_front_react/
           ls -al
-          npm instal
+          npm --version
+          npm install
         host: ${{ secrets.AWS_TEST_X_HOST }}
         user: ${{ secrets.AWS_TEST_X_USERNAME }}
         key: ${{ secrets.AWS_TEST_X_KEY }}
