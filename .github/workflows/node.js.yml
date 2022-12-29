@@ -28,6 +28,8 @@ jobs:
         command: |
           cd SSEKER/pjt_front_react/
           ls -al
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
           npm --version
           npm install
         host: ${{ secrets.AWS_TEST_X_HOST }}
