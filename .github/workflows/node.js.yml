@@ -22,3 +22,36 @@ jobs:
         cache-dependency-path: '**/package-lock.json'
     - run: cd pjt_front_react && npm install
     - run: cd pjt_front_react && npm run build
+    - run: touch ssafy_platform_server.pem
+    - run: echo '''-----BEGIN RSA PRIVATE KEY-----
+          MIIEpAIBAAKCAQEApDRSKEns9Z8qTpHIXakKG32TAbVIqFDG52SVk/m5ydn79MNJ
+          BYMWNAL+Jaiky+cmDigeyxdhKG7EGF+TPddOVM8QucsAJHc8Q4kf1IRTdrj4Kn/a
+          mZhC863HAsoVLw3OmEVaC/sOQxgvWf6644W7PJ2QBfEUlD8eqLVjQ8hXX1cHSt7F
+          pq2pCcGozbdzAPB+4WB+EeQNQeh0xUTveO+VFrUBLCrfHTdjEufmyVekuigeIUpF
+          Jxwk55R9gTtpNO4d65gNzFG82zPtD/v2shnbdW901sVMqkT6Vn3F5AGUgLF7JVFG
+          Tr98dSi184m8Ul83EkxpKiGs6+4YR0CxpHC7VwIDAQABAoIBAAO7EJbLvy+Bc0Of
+          uk6udYVUYA+s3767PxmoxmE7TkZQxpG0Eiem5808uCuA3mWnlczCipiQqmtxwNDQ
+          8xZ3mtcAcV/XReSONPdP2UJJ01+iKjlE+GF+/R5uN1RP5RVRmf0JrlcRWCycEw9X
+          Y0WiFzP0XH5WEOKhYH/yxxOWLK4E0cclZy88CCrv2AiFv6TF3N6xclEEGP/xSpB7
+          ma/tB1PTUOtFqOp/9eENabV2zg6zxfEzDvvHdr4YJBRy5HXTCFGDpM1HquzREoPt
+          hv0NhwgpXs0qzAumgFor6XNDafVXWoYRhJgCr6I7E7VgSi+hNKqCD1XlLJ4j3vFY
+          4lb9DCECgYEA6agQq5UiNwa9rEEsEK5+km/o1x42MR8D5GCRcB/k1UNTfIUPMED1
+          Jz0wmkCFnZFAzTK/fkb4rt6yU3TjwwI0zE/JNYoTFLTAGBbU2skLztxP9GlGlafJ
+          /r7VuvhujM93KLdwn9VZ0l2ly7nYjnLHqB/1+xml3INWgxBrx8EVB4cCgYEAs+gP
+          jKJxPkRYlHhLZgPJfwB05lBG32Vg885oggIYdcADsJCodZTCFSYgu0biRXt1N6nF
+          X2cyVD2vamtsS9Af71gTN7EOp2EUhusMIXv20w5O9cMDD/2+jMFjrjifBt/wPpXB
+          7u/OmfHotNmVvv54u4ZqDnr9s/yJpHptz5rpAbECgYA886Kln9m1EQUZkka0c1CB
+          UsAinbb1SWnygV5vKWLAXzfAG9XCeK969PNgycQRPnrxDHP3tPvaYi2Sp8Nic4ji
+          Y03RsZsYo64YmpwcFqYF6GLTF0NadtKyqYWHqJbuFJC5BmFS0I0F23gMlQZw4nBC
+          41N/lUk3JOvEdNwo161ssQKBgQCtxWqvhoAnitCcqAz7/pB0EbbYd5XdVgjtteOQ
+          IAIMSmnF9BQjboqA7xESk4cfYf54w40Xd5BPej2jZxt1pxQRlVsKogTre4PeRc6z
+          0Q86EUoHbFPa8FdLkch8kchZVZiyeuiVqCBA5j7F4J0ZnKZ1S4HJdtbzMOyqaG8E
+          5jZGIQKBgQC63MZMbqLOL3uDA/+LtK1+Em61eqENaKf/NpsvBIQ7+45w1tmh+O+K
+          aYKGfiyFWsnuRKMt5LwACWzcHiyqlPrA+Kp2f13VnWhlN0bUIhL9s2v7rTFDGcYX
+          xshJc3hF6oj6iX+AdY/RLLEtT8X2PjNrx55UHUkwlykabTKmwA8MRQ==
+          -----END RSA PRIVATE KEY-----''' >> ssafy_platform_server.pem
+    - run: cat ssafy_platform_server.pem
+    - run: chmod 400 ssafy_platform_server.pem
+    - run: ssh -i 'ssafy_platform_server.pem' ubuntu@43.201.92.153
+    - run: yes
+    - run: ls
