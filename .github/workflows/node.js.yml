@@ -22,7 +22,7 @@ jobs:
     #    cache-dependency-path: '**/package-lock.json'
     #- run: cd pjt_front_react && npm install
     #- run: cd pjt_front_react && npm run build
-    - name: Deploy
+    - name: Deploy FE-server1
       uses: fifsky/ssh-action@master
       with:
         command: |
@@ -39,3 +39,20 @@ jobs:
         host: ${{ secrets.AWS_TEST_X_HOST }}
         user: ${{ secrets.AWS_TEST_X_USERNAME }}
         key: ${{ secrets.AWS_TEST_X_KEY }}
+    - name: Deploy FE-server2
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          cd SSEKER/pjt_front_react/
+          git pull
+          ls -al
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
+          npm --version
+          npm install
+          npm run build
+          pm2 start npm -- start
+        host: ${{ secrets.AWS_TEST_X_HOST_FE2 }}
+        user: ${{ secrets.AWS_TEST_X_USERNAME }}
+        key: ${{ secrets.AWS_TEST_X_KEY_FE2 }}
+        
