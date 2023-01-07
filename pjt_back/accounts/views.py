@@ -1,18 +1,16 @@
 from .models import User
-
-
-
-from .serializers import UserSerializer, UserUpdateSerializer, UserUpdateSkillSerializer, UserUpdateLanguageSerializer, UserUpdateEtcSerializer, UserSearchSerializer, RecommendUserListSerializer
-
 from objects.models import Campus, SkillCategory
 from objects.serializers import SkillSerializer, CampusSerializer
+from .serializers import UserSerializer, UserUpdateSerializer, UserUpdateSkillSerializer, UserUpdateLanguageSerializer, UserUpdateEtcSerializer, UserSearchSerializer, RecommendUserListSerializer
 
 from django.http import JsonResponse
 
+import requests
 from urllib.parse import unquote
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
 
 def filtering_peoples(request):
     campus  = request.GET.get('campus')
@@ -133,3 +131,35 @@ def recommend_users(request):
                 recommend_users.append(user)
     serializer = RecommendUserListSerializer(recommend_users, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def rocket_signup(request):
+    admin_token = 'dVSTCd0aihjwcqmlfRYWi25juWyI3F3CpilBJviRhYM'
+    admin_user_id = 'MsxKCXtaxzoxJ3Km6'
+    headers = {
+        'X-Auth-Token': admin_token,
+        'X-User-Id': admin_user_id,
+    }
+
+    name = request.data.get('name')
+    email = request.data.get('email')
+    password = request.data.get('password')
+    username = request.data.get('username')
+
+    json_data = {
+        'name': name,
+        'email': email,
+        'password': password,
+        'username': username,
+    }
+
+    response = requests.post('http://localhost:3000/api/v1/users.create', headers=headers, json=json_data)
+    print(response.json())
+    return Response(status=status.HTTP_200_OK)
+
+
+from django.shortcuts import render
+
+def rocket_index(request):
+    return render(request, 'accounts/test.html')
