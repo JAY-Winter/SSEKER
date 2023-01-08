@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>TEST</h1>
+    <button id="rocket-chat">CHAT</button>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    const btn = document.getElementById('rocket-chat')
+    const name = '김빠삐' // 한글 가능
+    const email = 'ppapi@gmail.com'
+    const password = '1q2w3e4r!'
+    const username = email.split('@')[0] // 한글 불가 >> 이메일 @ 앞 부분 적용
+    const data = {
+        name,
+        email,
+        password,
+        username,
+    }
+    btn.addEventListener('click', () => {
+        axios({
+            method: 'post',
+            url: 'http://127.0.0.1:8000/accounts/rocketchat/api/signup',
+            data: data,
+        })
+        .then((res => console.log(res)))
+        .catch((err => console.log(err)))
+    })
+</script>
+</html>
